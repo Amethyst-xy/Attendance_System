@@ -9,7 +9,6 @@ const {Option}=Select;
 
 export default function Login(props){
     const [register, setregister] = useState(false);
-    const [grade, setgrade] = useState(1);
     const formRef = useRef();
 
     const layoutCol={
@@ -19,7 +18,7 @@ export default function Login(props){
 
     //表单验证并且发送请求
     const onFinish =async (values) => {
-        const {nickname,username,password}=values;
+        const {nickname,username,password,grade}=values;
         const params={
             nickname,
             username,
@@ -28,8 +27,8 @@ export default function Login(props){
         }
 
         if(register){
-            //若是注册，提示注册成功，并且显示登录页面
-            //首先判断确认密码是否正确
+            // 若是注册，提示注册成功，并且显示登录页面
+            // 首先判断确认密码是否正确
             if(password!==values.repassword){//注意地址的问题
                 message.error('请确保两次密码一致');
                 formRef.current.resetFields();
@@ -46,6 +45,7 @@ export default function Login(props){
         }else{
             const {nickname,password}=params;
             const res=await reqLogin(nickname,password);
+            console.log(res);
             if(res.status===0){
                 storageUtils.addUser(res.data);
                 message.success('登录成功');
@@ -56,15 +56,9 @@ export default function Login(props){
         }
     };
 
-    //获取select的值
-    const handleChange=(value)=>{
-        setgrade(value);
-    }
-
-
-    if(storageUtils.getUser().username){
-        return <Redirect to='/'></Redirect>
-    }
+    // if(storageUtils.getUser().username){
+    //     return <Redirect to='/'></Redirect>
+    // }
 
     return (
         <div className='login_wrapper'>
@@ -76,6 +70,7 @@ export default function Login(props){
             <Form
                 initialValues={{
                     remember: true,
+                    grade:0
                 }}
                 {...layoutCol}
                 onFinish={onFinish}
@@ -147,13 +142,12 @@ export default function Login(props){
                                 <Input.Password placeholder='请输入...'/>
                             </Form.Item>
                             <Form.Item
+                                name='grade'
                                 label='年级'
                                 {...layoutCol}
                             >
                                 <Select 
-                                    defaultValue="大一" 
                                     style={{ width: "100%" }} 
-                                    onChange={handleChange}
                                 >
                                     <Option value={0}>大一</Option>
                                     <Option value={1}>大二</Option>

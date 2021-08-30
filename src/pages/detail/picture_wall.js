@@ -4,6 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import url from "../../assets/images/1.png";
 import {BASE_URL} from '../../utils/constants';
 import { reqDeleteAvatar } from "../../api";
+import {BASE_SRC} from '../../utils/constants';
 
 function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ class PicturesWall extends React.Component {
                 uid: '-1',
                 name: 'avatar.png',
                 status: 'done',
-                url:avatar?avatar:url
+                url:avatar?BASE_SRC+avatar:url
               }
             ]
         };
@@ -52,7 +53,6 @@ class PicturesWall extends React.Component {
     //获取图片名称
     getImg=()=>{
         const {fileList}=this.state;
-        console.log(fileList)
         return fileList.length>0?fileList[0].name:''
     }
 
@@ -60,7 +60,6 @@ class PicturesWall extends React.Component {
     handleChange =async ({file,fileList})=>{
         //上传图片
         if(file.status==='done'){
-          console.log(file);
             const {status,data}=file.response;
             if(status===0){
                 // const {name,url}=data;

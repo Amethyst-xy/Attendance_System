@@ -1,10 +1,14 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import menuConfig from "../../config/menuConfig";
 import {withRouter,Link} from 'react-router-dom';
-import {Menu} from 'antd';
+import {Menu,Layout} from 'antd';
 import storageUtils from '../../utils/storageUtils';
+import url from '../../assets/images/1.png';
+import {BASE_SRC} from '../../utils/constants';
+import {reqDetailInfo} from '../../api';
 
 const { SubMenu } = Menu;
+const {Sider}=Layout;
 
 const hasAuth=(cur)=>{
     //当前用户为admin
@@ -18,6 +22,7 @@ const hasAuth=(cur)=>{
 
 const LeftNav=(props)=>{
     let menus,selected,openKey,willmount=true;//当前选中
+    const [user, setUser] = useState(storageUtils.getUser());
 
     //构建SubMenu数组
     const initSubMemu=(menuList)=>{
@@ -44,22 +49,43 @@ const LeftNav=(props)=>{
         return menus;
     }
 
+    //获取用户详情
+    const getDetail=async ()=>{
+        const res=await reqDetailInfo(storageUtils.getUser().nickname||'admin');
+        if(res.status===0){
+            setUser(res.data);
+        }
+    }
+
     if(willmount){
         willmount=false;
         selected=props.location.pathname;
         menus=initSubMemu(menuConfig);
     }
 
+    useEffect(()=>{
+        getDetail();
+    },[]);
+
     return (
-        <Menu
-            mode="inline"
-            theme="dark"
-            
-            defaultOpenKeys={[openKey]}
-            defaultSelectedKeys={[selected]}
-            >
-                {menus}
-        </Menu>        
+   
+        <Sider className='sider'>
+            <div className='sider_header'>
+                <div className='avatar'>
+                    <img src={user.avatar?BASE_SRC+user.avatar:url} alt='avatar'></img>
+                </div>
+                <p className='username'>{user.nickname}</p>
+            </div>      
+            <Menu
+                mode="inline"
+                theme="dark"
+                
+                defaultOpenKeys={[openKey]}
+                defaultSelectedKeys={[selected]}
+                >
+                    {menus}
+            </Menu>    
+        </Sider>    
     );
 }
 

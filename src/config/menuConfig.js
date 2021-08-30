@@ -22,18 +22,18 @@ const menuList = [
         children: [
             {
                 title: '大一',
-                key: '/attendance/freshman',
+                key: '/freshman',
                 icon: <TeamOutlined />
             }, {
                 title: '大二',
-                key: '/attendance/sophomore',
+                key: '/sophomore',
                 icon: <TeamOutlined />
             }
         ]
     }, 
     {
         title: '用户管理',
-        key: '/user',
+        key: '/userinfo',
         icon: <TeamOutlined />
     }, 
     {
