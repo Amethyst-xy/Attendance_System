@@ -35,13 +35,13 @@ export default function User(props){
 
     //删除用户
     const deleteUser=(user)=>{
-        const {nickname,username}=user;
+        const {username,nickname}=user;
         Modal.confirm({
-            content: '确定要删除'+username+'吗?',
+            content: '确定要删除'+nickname+'吗?',
             okText:'确定',
             cancelText:'取消',
             onOk:async ()=>{
-                const res=await reqDeleteUser(nickname);
+                const res=await reqDeleteUser(username);
                 if(res.status===0){
                     message.success('删除成功');
                     initUsers();
@@ -60,7 +60,7 @@ export default function User(props){
                 align:'center',
                 render:value=>{
                     for(var i in list){
-                        if(list[i].nickname===value.nickname){
+                        if(list[i].username===value.username){
                             return i;
                         }
                     }
@@ -68,12 +68,12 @@ export default function User(props){
             },
             {
                 title: '姓名',
-                dataIndex: 'username',
+                dataIndex: 'nickname',
                 align:'center'
             },
             {
                 title:'用户名',
-                dataIndex:'nickname',
+                dataIndex:'username',
                 align:'center'
             },
             {
@@ -158,14 +158,14 @@ export default function User(props){
     const handleOk =async () => {
         const values=await formRef.current.formRef.validateFields().catch(err=>console.log(err));
         values.online=values.online==='正在打卡'?1:0;
-        const params={...values,nickname:user.nickname,role:'member'};
+        const params={...values,username:user.username,role:'member'};
         
         const res=await reqUpdateUser(params);
         if(res.status===0){
             setIsModalVisible(false);
 
             // const user=storageUtils.getUser();
-            // if(user.nickname===params.nickname){
+            // if(user.username===params.username){
             //     //修改的是管理员自己的用户名—>跳转登录
             //     props.history.replace('/login');
             //     message.warning('【用户名更改】重新登录');
@@ -173,13 +173,13 @@ export default function User(props){
             
             if(res.data===1){
                 //请求下卡
-                const response=await reqEndClock(params.nickname);
+                const response=await reqEndClock(params.username);
                 if(response.status!==0){
                     message.warning(response.msg);
                 }
             }else if(res.data===2){
                 //请求打卡
-                const response=await reqStartClock(params.nickname);
+                const response=await reqStartClock(params.username);
                 if(response.status!==0){ 
                     message.warning(response.msg);
                 }   
@@ -208,7 +208,7 @@ export default function User(props){
                     loading={isloading}
                     dataSource={list}
                     columns={columns}
-                    rowKey='nickname'
+                    rowKey='username'
                     pagination={{
                         pageSize:10,
                         showQuickJumper:true

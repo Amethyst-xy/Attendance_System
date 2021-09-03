@@ -22,15 +22,15 @@ const {Footer, Content } = Layout;
 export default function Admin(){
     const user=storageUtils.getUser();
 
-    // if(!user.nickname){
+    // if(!user.username){
     //     return <Redirect to='/login'></Redirect>
     // }
 
     return (
         <Layout style={{minHeight:"100%"}}>
-            {user.nickname&&<LeftNav/>}  
+            {user.username&&<LeftNav/>}  
             <Layout>
-                {user.nickname&&<HeaderPart/>}
+                {user.username&&<HeaderPart/>}
                 <Content style={{backgroundColor:"#fff",margin:"20px",marginBottom:0}}>
                     <Switch>
                         <Redirect exact from='/' to='/home'></Redirect>

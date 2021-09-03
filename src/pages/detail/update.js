@@ -3,7 +3,7 @@ import { Card,Form, Input,Select,Button,message } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import PicturesWall from "./picture_wall";
 import LinkButton from "../../components/link_button/link_button";
-import { reqUpdateSelf } from "../../api";
+import {reqLogin, reqLogout, reqUpdateSelf} from "../../api";
 import storageUtils from '../../utils/storageUtils';
 
 export default function UpdateForm(props){
@@ -41,10 +41,13 @@ export default function UpdateForm(props){
                     //密码更改，重新登录
                     message.warning('密码更改，请重新登录！');
                     storageUtils.removeUser();
-                    props.history.replace('/login');
+                    // 清除后端认证
+                    reqLogout().then(r => {
+                        props.history.replace('/login');
+                    });
                 }else{
                     const user=storageUtils.getUser();
-                    user.nickname=userObj.nickname;
+                    user.username=userObj.username;
                     storageUtils.addUser(user);
                     message.success('修改成功');
 
@@ -58,15 +61,15 @@ export default function UpdateForm(props){
         }
     }
 
-    const {username,nickname,password,grade,avatar}=props.location.state;
+    const {nickname,username,password,grade,avatar}=props.location.state;
 
     return (
         <Card title={title}>
             <Form
                 ref={formRef}
                 initialValues={{
-                    username,
                     nickname,
+                    username,
                     password,
                     grade:grade?'2020级':'2021级',
                     avatar
@@ -74,13 +77,13 @@ export default function UpdateForm(props){
             >
                 <Form.Item
                     {...layoutCol}
-                    name='nickname'
+                    name='username'
                     label='用户名'
                     rules={[
                         {required:true,message:'必须输入!'}
                     ]}
                 >
-                    <Input disabled={nickname==='admin'?true:false}/>
+                    <Input disabled={username==='admin'?true:false}/>
                 </Form.Item>
                 <Form.Item
                     {...layoutCol}
@@ -116,7 +119,7 @@ export default function UpdateForm(props){
                     {...layoutCol}
                     label='头像'
                 >
-                    <PicturesWall avatar={avatar} nickname={nickname} ref={avatarRef}/>
+                    <PicturesWall avatar={avatar} username={username} ref={avatarRef}/>
                 </Form.Item>
             </Form>
             <Button 

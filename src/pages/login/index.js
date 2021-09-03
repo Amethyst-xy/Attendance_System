@@ -1,5 +1,5 @@
 import React,{useState,useRef} from 'react';
-import {Form,Select,Input, Button, message} from 'antd';
+import {Form, Select, Input, Button, message, Image} from 'antd';
 import storageUtils from "../../utils/storageUtils";
 import './index.less';
 import { Redirect } from 'react-router-dom';
@@ -9,6 +9,7 @@ const {Option}=Select;
 
 export default function Login(props){
     const [register, setregister] = useState(false);
+    const [imgsrc,setimgsrc]=useState('/verifyCode?time='+new Date());
     const formRef = useRef();
 
     const layoutCol={
@@ -16,14 +17,20 @@ export default function Login(props){
         wrapperCol:{span:19}
     }
 
+    const updateVertifyCode = async (values) => {
+        setimgsrc('/verifyCode?time='+new Date());
+    }
+
+
     //表单验证并且发送请求
     const onFinish =async (values) => {
-        const {nickname,username,password,grade}=values;
+        const {username,nickname,password,grade,code}=values;
         const params={
-            nickname,
             username,
+            nickname,
             password,
-            grade
+            grade,
+            code
         }
 
         if(register){
@@ -43,11 +50,16 @@ export default function Login(props){
                 }
             }
         }else{
-            const {nickname,password}=params;
-            const res=await reqLogin(nickname,password);
+            const {username,password, code}=params;
+            const res=await reqLogin(username,password,code);
             console.log(res);
             if(res.status===0){
+                console.log(res);
                 storageUtils.addUser(res.data);
+                setTimeout(()=>{
+                    console.log(storageUtils.getUser());
+                },1000);
+
                 message.success('登录成功');
                 props.history.replace('/');//跳转首页
             }else{
@@ -56,7 +68,7 @@ export default function Login(props){
         }
     };
 
-    // if(storageUtils.getUser().username){
+    // if(storageUtils.getUser().nickname){
     //     return <Redirect to='/'></Redirect>
     // }
 
@@ -78,7 +90,7 @@ export default function Login(props){
                 >
                 <Form.Item
                     label="用户名"
-                    name="nickname"
+                    name="username"
                     rules={[
                         {
                             required: true,
@@ -92,7 +104,7 @@ export default function Login(props){
                     register?(
                         <Form.Item
                             label="真实姓名"
-                            name="username"
+                            name="nickname"
                             rules={[
                                 {
                                     required: true,
@@ -114,13 +126,30 @@ export default function Login(props){
                             message: '必须输入！',
                         },
                         {
-                            min:6,
+                            min:3,
                             message:'密码至少6位'
                         }
                     ]}
                 >
                     <Input.Password placeholder='请输入...'/>
                 </Form.Item>
+
+                <Form.Item
+                    label="验证码"
+                    name="code"
+                    {...layoutCol}
+                    rules={[
+                        {
+                            required: true,
+                            message: '必须输入！',
+                        }
+                    ]}
+                >
+                    <Input placeholder='请输入...'/>
+                </Form.Item>
+                <img src={imgsrc} onClick={updateVertifyCode}></img>
+
+
                 {
                     register?(
                         <div>

@@ -4,6 +4,7 @@ const USER_KEY='user_key';
 
 const ONLINE='online';
 
+
 const storageUtils={
     //添加user
     addUser:user=>store.set(USER_KEY,user),
@@ -18,7 +19,10 @@ const storageUtils={
     addStatus:(status)=>store.set(ONLINE,status),
 
     //获取打卡状态
-    getStatus:()=>store.get(ONLINE)
+    getStatus:()=>store.get(ONLINE),
+
+
+
 }
 
 export default storageUtils;

@@ -2,28 +2,10 @@ import axios from "axios";
 import { message } from "antd";
 import Qs from "qs";
 
-// export default function ajax(url,params,type='GET'){
-//     return new Promise((resolve,reject)=>{
-//         let promise;
-//         if(type==='GET'){
-//             promise=axios.get(url,{
-//                 params//配置对象
-//             });
-//         }else{
-//             promise=axios.post(url,{
-//                 params
-//             });
-//         }
-//         promise.then(res=>{
-//             resolve(res.data);
-//         }).catch(err=>{
-//             message.error('请求出错了：'+err.toString());
-//         })
-//     })
-// }
 export default function ajax(url, data={}, type='GET') {
     return new Promise((resolve, reject) => {
-      let promise
+      let promise;
+
       // 1. 执行异步ajax请求
       if(type==='GET') { // 发GET请求
         promise = axios.get(url, { // 配置对象
@@ -37,8 +19,24 @@ export default function ajax(url, data={}, type='GET') {
         resolve(response.data)
       // 3. 如果失败了, 不调用reject(reason), 而是提示异常信息
       }).catch(error => {
-        // reject(error)
-        message.error('请求出错了: ' + error.message)
+
+        if (error.response.status === 504 || error.response.status === 404) {
+          message.error( '服务器被吃了( ╯□╰ )')
+        } else if (error.response.status === 403) {
+          message.error('权限不足，请联系管理员')
+        } else if (error.response.status === 401) {
+          message.error(error.response.data.msg ? error.response.data.msg : '尚未登录，请登录')
+        } else {
+          if (error.response.data.msg) {
+            message.error( error.response.data.msg)
+          } else {
+            message.error( '请求出错了: ' + error.message)
+          }
+        }
       })
     })
   }
+
+
+
+  

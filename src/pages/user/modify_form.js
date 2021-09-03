@@ -16,7 +16,7 @@ class ModifyForm extends Component{
     this.formRef.resetFields();
   }
   render(){
-    const {nickname,username,grade,online,allTime,finishTime}=this.user;
+    const {username,nickname,grade,online,allTime,finishTime}=this.user;
 
     const layoutCol={
       labelCol:{span:4},
@@ -37,7 +37,7 @@ class ModifyForm extends Component{
       >
           <Form.Item
             label='姓名'
-            name='username'
+            name='newNickname'
             {...layoutCol}
             rules={[
               {required:true,message:'姓名不能为空'}
@@ -47,13 +47,14 @@ class ModifyForm extends Component{
           </Form.Item>
           <Form.Item
             label='用户名'
-            name='newNickname'
+            name='username'
             {...layoutCol}
             rules={[
               {required:true,message:'用户名不能为空'}
             ]}
           >
-              <Input disabled={nickname==='admin'?true:false}/>
+              {/*<Input disabled={username==='admin'?true:false}/>*/}
+              <Input disabled/>
           </Form.Item>
           <Form.Item 
             label='年级'

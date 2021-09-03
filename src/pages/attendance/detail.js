@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { Card,Button,Table,Progress,message,Modal } from "antd";
-import { getUsers, reqStartClock,reqEndClock } from "../../api";
+import {getUsers, reqStartClock, reqEndClock, reqChangeOnline} from "../../api";
 import storageUtils from '../../utils/storageUtils';
   
 
@@ -25,7 +25,7 @@ class Detail extends Component{
                 render:(value)=>{
                     const list=this.state.list;
                     for(let i in list){
-                        if(list[i].nickname===value.nickname){
+                        if(list[i].username===value.username){
                             return i;
                         }
                     }
@@ -33,7 +33,7 @@ class Detail extends Component{
             },
             {
                 title: '姓名',
-                dataIndex: 'username',
+                dataIndex: 'nickname',
                 align:'center'
             },
             {
@@ -91,7 +91,7 @@ class Detail extends Component{
             list.sort((a,b)=>b.finishTime-a.finishTime);
 
             //查找到当前登录用户，同步打卡状态
-            const cur=list.find(item=>item.nickname===storageUtils.getUser().nickname);
+            const cur=list.find(item=>item.username===storageUtils.getUser().username);
             if(cur){
                 this.setState({isonline:cur.online});
                 const user=storageUtils.getUser();
@@ -106,28 +106,33 @@ class Detail extends Component{
 
     //开始打卡
     startClock=async ()=>{
-        const {nickname}=storageUtils.getUser();
-        const res=await reqStartClock(nickname);
+        const {username}=storageUtils.getUser();
+        const res=await reqStartClock(username);
         
         if(res.status===0){
             message.success('打卡成功');
             //将storage中的状态改为true
             this.initUsers();
+        } else if (res.status === 2) {
+            message.error(res.msg);
         }
     }
 
     //结束打卡
     endClock=async ()=>{
-        const {nickname}=storageUtils.getUser();
-        const res=await reqEndClock(nickname);
+        const {username}=storageUtils.getUser();
+        const res=await reqEndClock(username);
         if(res.status===0){
             message.success('下卡成功');
             this.initUsers();
-        }else{
+        }else if (res.status === 2) {
+            message.error(res.msg);
+        } else{
             Modal.confirm({
                 content: res.msg+',确定要结束吗？',
                 onOk:()=>{
                     storageUtils.addStatus(false);
+                    reqChangeOnline(username);
                     this.initUsers();
                 }
             })
@@ -161,7 +166,7 @@ class Detail extends Component{
                     dataSource={list} 
                     columns={this.columns} 
                     bordered
-                    rowKey='nickname'
+                    rowKey='username'
                     pagination={{
                         pageSize:8,
                         showQuickJumper:true

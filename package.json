@@ -21,7 +21,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "store": "^2.0.12",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "webpack": "^4.44.2"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -47,5 +48,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy":"http://114.55.91.199:8082"
+
+
+  "proxy": "http://localhost:8082"
 }

@@ -18,8 +18,8 @@ function getBase64(file) {
 class PicturesWall extends React.Component {
     constructor(props){
         super(props);
-        const {avatar,nickname}=props;
-        this.nickname=nickname;
+        const {avatar,username}=props;
+        this.username=username;
         this.state={
             previewVisible: false,
             previewImage: '',
@@ -71,7 +71,7 @@ class PicturesWall extends React.Component {
                 message.error('上传失败');
             }
         }else if(file.status==='removed'){//删除图片
-            const res=await reqDeleteAvatar(this.nickname);
+            const res=await reqDeleteAvatar(this.username);
             if(res.status===0){
                message.success('删除成功');
             }else{
@@ -94,10 +94,10 @@ class PicturesWall extends React.Component {
       return (
         <>
           <Upload
-            action={BASE_URL+"/user/upload"}
+            action={BASE_URL+"/user/avatar"}
             listType="picture-card"
             accept='/image/*'
-            data={{nickname:this.nickname}}
+            data={{username:this.username}}
             fileList={fileList}
             onPreview={this.handlePreview}
             onChange={this.handleChange}

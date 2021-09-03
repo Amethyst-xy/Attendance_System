@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from "react";
 import ReactECharts from 'echarts-for-react';
-import { reqDayData } from "../../../api";
+import {getIP, reqDayData} from "../../../api";
+import storageUtils from "../../../utils/storageUtils";
 
 const getOption=(grade,series)=>{
     const option = {
@@ -38,6 +39,9 @@ const getOption=(grade,series)=>{
 }
 
 
+
+
+
 export default function Line(props){
     const {grade}=props;
     const [series, setseries] = useState([]);
@@ -54,7 +58,7 @@ export default function Line(props){
                     data.push(obj[j]);
                 }
                 arr.push({
-                    name:userdata[i].username,
+                    name:userdata[i].nickname,
                     type:'line',
                     stack:'时长',
                     data
@@ -70,3 +74,6 @@ export default function Line(props){
 
     return <ReactECharts option={getOption(grade,series)}/>
 }
+
+
+

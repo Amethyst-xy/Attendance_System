@@ -3,7 +3,7 @@ import LinkButton from '../../components/link_button/link_button';
 import {Layout,Modal} from 'antd';
 import menuConfig from "../../config/menuConfig";
 import storageUtils from '../../utils/storageUtils';
-import {reqCleanInfo} from '../../api';
+import {reqCleanInfo, reqLogout} from '../../api';
 import {withRouter} from 'react-router-dom';
 
 
@@ -39,8 +39,13 @@ const HeaderPart=(props)=>{
             cancelText:'取消',
             onOk:()=>{
                 //清除缓存数据
-                storageUtils.removeUser();
-                props.history.replace('/login');
+                reqLogout().then(resp=>{
+                    if (resp) {
+                        storageUtils.removeUser();
+                        props.history.replace('/login');
+                    }
+                });
+
             }
         });
     }
@@ -61,12 +66,12 @@ const HeaderPart=(props)=>{
     return (
         <Header style={{backgroundColor:"#fff",padding:0}}>
             <div className='top'>
-                Hi~{storageUtils.getUser().nickname}
+                Hi~{storageUtils.getUser().username}
                 <LinkButton onClick={logOut}>退出</LinkButton>
             </div>
             <div className='bottom'>
                 <div className='bottom_left'>{getTitle()}</div>
-                <div className='bottom_right'>当前是第{clean.week+1}周，卫生:{clean.username}</div>
+                <div className='bottom_right'>当前是第{clean.week+1}周，卫生:{clean.nickname}</div>
             </div>
         </Header>
     );

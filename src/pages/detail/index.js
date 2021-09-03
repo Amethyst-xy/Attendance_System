@@ -16,8 +16,8 @@ export default function SelfInfo(props){
     const [user, setuser] = useState({});
 
     const getDetail=async ()=>{
-        const {nickname}=storageUtils.getUser();
-        const res=await reqDetailInfo(nickname);
+        const {username}=storageUtils.getUser();
+        const res=await reqDetailInfo(username);
         if(res.status===0){
             setuser(res.data);
         }
@@ -27,14 +27,14 @@ export default function SelfInfo(props){
         getDetail();
     },[]);
 
-    const {username,nickname,grade,avatar}=user;
+    const {nickname,username,grade,avatar}=user;
 
     return (
         <div>
             <div className='header'>
-                <img src={avatar?(BASE_SRC+avatar):src} alt='avatar'></img>
+                <img src={user.avatar?(user.avatar):src} alt='avatar'></img>
                 <p className='header_right'>
-                    <span className='username'>{username}</span>
+                    <span className='nickname'>{nickname}</span>
                     <span className='modify' onClick={()=>{props.history.push('/detail/update',user)}}>
                         修改信息
                         <IconFont type='icon-xiugai-copy'/>
@@ -48,13 +48,13 @@ export default function SelfInfo(props){
                         <List.Item>
                             <p className='detail_title'>
                                 用户名：
-                                <span>{nickname}</span>    
+                                <span>{username}</span>    
                             </p>
                         </List.Item>
                         <List.Item>
                             <p className='detail_title'>
                                 真实姓名：
-                                <span>{username}</span>    
+                                <span>{nickname}</span>    
                             </p>
                         </List.Item>
                         <List.Item>

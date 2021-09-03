@@ -23,6 +23,9 @@ export default function Home(){
                     </Col>
                 </Row>
             </Card>
+
         </div>
+
     );
 }
+
