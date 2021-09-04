@@ -52,17 +52,15 @@ export default function Login(props){
         }else{
             const {username,password, code}=params;
             const res=await reqLogin(username,password,code);
-            console.log(res);
             if(res.status===0){
-                console.log(res);
                 storageUtils.addUser(res.data);
                 setTimeout(()=>{
-                    console.log(storageUtils.getUser());
                 },1000);
 
                 message.success('登录成功');
                 props.history.replace('/');//跳转首页
             }else{
+                updateVertifyCode();
                 message.error(res.msg);
             }
         }
@@ -126,7 +124,7 @@ export default function Login(props){
                             message: '必须输入！',
                         },
                         {
-                            min:3,
+                            min:6,
                             message:'密码至少6位'
                         }
                     ]}
@@ -134,20 +132,27 @@ export default function Login(props){
                     <Input.Password placeholder='请输入...'/>
                 </Form.Item>
 
-                <Form.Item
-                    label="验证码"
-                    name="code"
-                    {...layoutCol}
-                    rules={[
-                        {
-                            required: true,
-                            message: '必须输入！',
-                        }
-                    ]}
-                >
-                    <Input placeholder='请输入...'/>
-                </Form.Item>
-                <img src={imgsrc} onClick={updateVertifyCode}></img>
+
+                {
+                    !register?(
+                        <div>
+                            <Form.Item
+                                label="验证码"
+                                name="code"
+                                {...layoutCol}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: '必须输入！',
+                                    }
+                                ]}
+                            >
+                                <Input placeholder='请输入...'/>
+                            </Form.Item>
+                            <img src={imgsrc} onClick={updateVertifyCode}></img>)
+                        </div>
+                    ):''
+                }
 
 
                 {
@@ -170,6 +175,7 @@ export default function Login(props){
                             >
                                 <Input.Password placeholder='请输入...'/>
                             </Form.Item>
+
                             <Form.Item
                                 name='grade'
                                 label='年级'
@@ -182,7 +188,9 @@ export default function Login(props){
                                     <Option value={1}>大二</Option>
                                 </Select>
                             </Form.Item>
-                                <p style={{textAlign:"right",paddingRight:"14px"}}>
+
+
+                            <p style={{textAlign:"right",paddingRight:"14px"}}>
                                     已注册？
                                     <span 
                                         style={{cursor:"pointer",color:"#7546C8"}} 
@@ -200,6 +208,9 @@ export default function Login(props){
                         </p>
                     )
                 }
+
+
+
                 <Form.Item 
                     wrapperCol={{span:24}}
                 >

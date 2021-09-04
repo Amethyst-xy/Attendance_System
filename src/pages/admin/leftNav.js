@@ -32,7 +32,6 @@ const LeftNav=(props)=>{
 
         const menus=menuList.reduce((pre,cur)=>{
             // if(hasAuth(cur)){
-                console.log(cur);
                 if(cur.children != null && cur.children.length === 0){
                     pre.push(
                         <Menu.Item key={cur.key} icon={cur.icon}>
@@ -78,7 +77,6 @@ const LeftNav=(props)=>{
 
         const res=await reqGetMenuList();
         if(res.status === 0){
-            console.log(res.data)
             setMenu(res.data);
         }
     }
@@ -91,14 +89,12 @@ const LeftNav=(props)=>{
         // menus=menu;
     }
 
-    console.log(menus);
 
     useEffect(()=>{
         getDetail();
         getMenu();
     },[]);
 
-    console.log(user);
 
     return (
    

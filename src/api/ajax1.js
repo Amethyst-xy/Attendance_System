@@ -2,18 +2,29 @@ import axios from "axios";
 import { message } from "antd";
 import Qs from "qs";
 import getUserIP from "./getUserIP";
+import md5 from "js-md5"
 
 
 export default function ajax1(url, data={}) {
+
+
     return new Promise((resolve, reject) => {
         let promise;
 
         // 发POST请求
 
                 getUserIP().then(value => {
-                    console.log(value);
+                    let md5Ip = 'offRTC';
+                    //加密
+                    if (value.length <= 15) {
+                        var minutes = new Date().getMinutes();
+                        var concatIp = value+minutes;
+                        md5Ip = md5(concatIp);
+                    }
+
+
                     promise = axios.post(url, Qs.stringify(data), {
-                        headers : {"LOCAL-IP":value},
+                        headers : {"LOCAL-IP":md5Ip},
                     });
                     // 2. 如果成功了, 调用resolve(value)
                     promise.then(response => {

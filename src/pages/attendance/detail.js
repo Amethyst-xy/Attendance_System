@@ -12,7 +12,8 @@ class Detail extends Component{
         this.state={
             list:[],
             isloading:false,
-            isonline:true
+            isonline:true,
+            clockLoading: false
         }
     }
 
@@ -86,6 +87,7 @@ class Detail extends Component{
     initUsers=async ()=>{
         this.setState({isloading:true});
         const data=await getUsers(this.grade);
+
         if(data.status===0){
             const list=data.data;
             list.sort((a,b)=>b.finishTime-a.finishTime);
@@ -106,36 +108,47 @@ class Detail extends Component{
 
     //开始打卡
     startClock=async ()=>{
+        this.setState({clockLoading:true});
+
         const {username}=storageUtils.getUser();
         const res=await reqStartClock(username);
-        
-        if(res.status===0){
-            message.success('打卡成功');
-            //将storage中的状态改为true
-            this.initUsers();
-        } else if (res.status === 2) {
-            message.error(res.msg);
+
+        if (res){
+            this.setState({clockLoading: false});
+            if (res.status === 0) {
+                message.success('打卡成功');
+                //将storage中的状态改为true
+                this.initUsers();
+            } else if (res.status !== 0) {
+                message.error(res.msg);
+            }
         }
     }
 
     //结束打卡
     endClock=async ()=>{
+        this.setState({clockLoading:true});
+
         const {username}=storageUtils.getUser();
         const res=await reqEndClock(username);
-        if(res.status===0){
-            message.success('下卡成功');
-            this.initUsers();
-        }else if (res.status === 2) {
-            message.error(res.msg);
-        } else{
-            Modal.confirm({
-                content: res.msg+',确定要结束吗？',
-                onOk:()=>{
-                    storageUtils.addStatus(false);
-                    reqChangeOnline(username);
-                    this.initUsers();
-                }
-            })
+
+        if (res){
+            this.setState({clockLoading: false});
+            if (res.status === 0) {
+                message.success('下卡成功');
+                await this.initUsers();
+            } else if (res.status === 2 || res.status === 3) {
+                message.error(res.msg);
+            } else {
+                Modal.confirm({
+                    content: res.msg + ',确定要结束吗？',
+                    onOk: () => {
+                        storageUtils.addStatus(false);
+                        reqChangeOnline(username);
+                        this.initUsers();
+                    }
+                })
+            }
         }
     }
 
@@ -149,14 +162,14 @@ class Detail extends Component{
     }
 
     render(){
-        const {list,isloading,isonline}=this.state;
+        const {list,isloading,isonline ,clockLoading}=this.state;
         const title=(
             <Button type='primary' onClick={()=>{this.initUsers()}}>刷新</Button>
         );
         const extra=isonline?(
-            isonline===1?<Button style={{backgroundColor:"#7546C8",color:"#fff"}} onClick={this.endClock}>结束打卡</Button>:''
+            isonline===1?<Button loading={clockLoading} style={{backgroundColor:"#7546C8",color:"#fff"}} onClick={this.endClock}>结束打卡</Button>:''
         ):(
-            <Button style={{backgroundColor:"#7546C8",color:"#fff"}} onClick={this.startClock}>开始打卡</Button>
+            <Button loading={clockLoading} style={{backgroundColor:"#7546C8",color:"#fff"}} onClick={this.startClock}>开始打卡</Button>
         )
 
         return (

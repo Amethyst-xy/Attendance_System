@@ -74,7 +74,6 @@ class Personal extends Component{
         }
         const arr=res.data;
         for(let i in arr){
-            // console.log(arr[i],isweek);
             if(arr[i].username===username){
                 const obj=arr[i].day;
                 const array=[]; 
@@ -101,7 +100,6 @@ class Personal extends Component{
 
     render(){
         const {week_data,day_data}=this.state;
-        // console.log(week_data,day_data);
         return (
             <div>
                 <Card title='本周数据'>

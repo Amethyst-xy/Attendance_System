@@ -13,6 +13,7 @@
     "customize-cra": "^1.0.0",
     "echarts": "^5.1.2",
     "echarts-for-react": "^3.0.1",
+    "js-md5": "^0.7.3",
     "less": "2.7.3",
     "less-loader": "5.0.0",
     "react": "^17.0.2",
@@ -48,7 +49,5 @@
       "last 1 safari version"
     ]
   },
-
-
   "proxy": "http://localhost:8082"
 }

@@ -14,6 +14,10 @@ export default class NotFound extends Component {
             <Button type='primary' onClick={() => this.props.history.replace('/home')}>
               回到首页
             </Button>
+              <br/><br/>
+              <Button type='primary' onClick={() => this.props.history.replace('/login')}>
+                  去登录
+              </Button>
           </div>
         </Col>
       </Row>

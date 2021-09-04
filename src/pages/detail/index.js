@@ -8,7 +8,7 @@ import {BASE_SRC} from '../../utils/constants';
 import src from '../../assets/images/1.png';
 
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_2730560_lqh5cka8vsi.js',
+  scriptUrl: '//at.alicdn.com/t/font_2730560_lqh5cka8vsi.securityJs',
 });
 
 
