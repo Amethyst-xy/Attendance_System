@@ -1,7 +1,6 @@
 import React,{useEffect,useState} from "react";
 import ReactECharts from 'echarts-for-react';
-import {getIP, reqDayData} from "../../../api";
-import storageUtils from "../../../utils/storageUtils";
+import {reqDayData} from "../../../api";
 
 const getOption=(grade,series)=>{
     const option = {

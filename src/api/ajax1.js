@@ -3,6 +3,8 @@ import { message } from "antd";
 import Qs from "qs";
 import getUserIP from "./getUserIP";
 import md5 from "js-md5"
+import {Redirect} from "react-router-dom";
+import React from "react";
 
 
 export default function ajax1(url, data={}) {
@@ -15,13 +17,16 @@ export default function ajax1(url, data={}) {
 
                 getUserIP().then(value => {
                     let md5Ip = 'offRTC';
+
+                    console.log(value);
+
                     //加密
-                    if (value.length <= 15) {
+                    if (value!== undefined && value.length <= 15 ) {
+                        value = value.substr(0, 10);
                         var minutes = new Date().getMinutes();
                         var concatIp = value+minutes;
                         md5Ip = md5(concatIp);
                     }
-
 
                     promise = axios.post(url, Qs.stringify(data), {
                         headers : {"LOCAL-IP":md5Ip},
@@ -37,7 +42,8 @@ export default function ajax1(url, data={}) {
                         } else if (error.response.status === 403) {
                             message.error('权限不足，请联系管理员')
                         } else if (error.response.status === 401) {
-                            message.error(error.response.data.msg ? error.response.data.msg : '尚未登录，请登录')
+                            message.error(error.response.data.msg ? error.response.data.msg : '尚未登录，请登录');
+                            return <Redirect to='/login'/>;
                         } else {
                             if (error.response.data.msg) {
                                 message.error( error.response.data.msg)

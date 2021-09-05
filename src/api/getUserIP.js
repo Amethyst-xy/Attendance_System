@@ -20,15 +20,15 @@ export  default function getUserIP () {
                         rtc.setLocalDescription(offerDesc);
                     },
                     (e) => {
-                        // console.log(e);
+                         console.log(e);
                     }
                 );
-                let ip2;
                 rtc.onicecandidate = (evt) => {
                     //监听candidate事件
                     if (evt.candidate) {
                         ip = evt.candidate.address;
                         resolve(ip);
+                        console.log(ip);
                     }
                 };
 

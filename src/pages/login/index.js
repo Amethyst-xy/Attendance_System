@@ -1,9 +1,9 @@
 import React,{useState,useRef} from 'react';
-import {Form, Select, Input, Button, message, Image} from 'antd';
+import {Form, Select, Input, Button, message} from 'antd';
 import storageUtils from "../../utils/storageUtils";
 import './index.less';
-import { Redirect } from 'react-router-dom';
-import { reqRegister,reqLogin } from "../../api";
+import {reqRegister, reqLogin} from "../../api";
+import {Redirect} from "react-router-dom";
 
 const {Option}=Select;
 
@@ -17,8 +17,8 @@ export default function Login(props){
         wrapperCol:{span:19}
     }
 
-    const updateVertifyCode = async (values) => {
-        setimgsrc('/verifyCode?time='+new Date());
+    const updateVerifyCode = async (values) => {
+        setimgsrc('/verifyCode?time='+new Date())
     }
 
 
@@ -60,15 +60,15 @@ export default function Login(props){
                 message.success('登录成功');
                 props.history.replace('/');//跳转首页
             }else{
-                updateVertifyCode();
+                await updateVerifyCode();
                 message.error(res.msg);
             }
         }
     };
 
-    // if(storageUtils.getUser().nickname){
-    //     return <Redirect to='/'></Redirect>
-    // }
+    if(storageUtils.getUser().username){
+        return <Redirect to='/'/>
+    }
 
     return (
         <div className='login_wrapper'>
@@ -149,7 +149,7 @@ export default function Login(props){
                             >
                                 <Input placeholder='请输入...'/>
                             </Form.Item>
-                            <img src={imgsrc} onClick={updateVertifyCode}></img>)
+                            <img src={imgsrc} onClick={updateVerifyCode} alt={'验证码'}/>
                         </div>
                     ):''
                 }
@@ -224,10 +224,3 @@ export default function Login(props){
     );
 }
 
-
-// import React from 'react';
-// import Redirect from 'react-router-dom'
-
-// export default function Loin(){
-//     return <div>hhhh</div>
-// }

@@ -6,7 +6,7 @@ export default class NotFound extends Component {
   render() {
     return (
       <Row className='not-found'>
-        <Col span={12} className='left'></Col>
+        <Col span={12} className='left'/>
         <Col span={12} className='right'>
           <h1>404</h1>
           <h2>抱歉，你访问的页面不存在</h2>
@@ -14,10 +14,6 @@ export default class NotFound extends Component {
             <Button type='primary' onClick={() => this.props.history.replace('/home')}>
               回到首页
             </Button>
-              <br/><br/>
-              <Button type='primary' onClick={() => this.props.history.replace('/login')}>
-                  去登录
-              </Button>
           </div>
         </Col>
       </Row>

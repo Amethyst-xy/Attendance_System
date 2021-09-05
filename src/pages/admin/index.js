@@ -22,9 +22,9 @@ const {Footer, Content } = Layout;
 export default function Admin(){
     const user=storageUtils.getUser();
 
-    // if(!user.username){
-    //     return <Redirect to='/login'></Redirect>
-    // }
+    if(!user.username){
+        return <Redirect to='/login'/>
+    }
 
     return (
         <Layout style={{minHeight:"100%"}}>
@@ -33,15 +33,15 @@ export default function Admin(){
                 {user.username&&<HeaderPart/>}
                 <Content style={{backgroundColor:"#fff",margin:"20px",marginBottom:0}}>
                     <Switch>
-                        <Redirect exact from='/' to='/home'></Redirect>
-                        <Route  path='/home' component={Home}></Route>
-                        <Route  path='/freshman' component={Freshman}></Route>
-                        <Route  path='/sophomore' component={Sophomore}></Route>
-                        <Route  path='/userinfo' component={User}></Route>
-                        <Route exact path='/detail' component={Detail}></Route>
-                        <Route path='/detail/update' component={UpdateForm}></Route>
-                        <Route  path='/charts' component={Personal}></Route>
-                        <Route component={NotFound}></Route>
+                        <Redirect exact from='/' to='/home'/>
+                        <Route  path='/home' component={Home}/>
+                        <Route  path='/freshman' component={Freshman}/>
+                        <Route  path='/sophomore' component={Sophomore}/>
+                        <Route  path='/userinfo' component={User}/>
+                        <Route exact path='/detail' component={Detail}/>
+                        <Route path='/detail/update' component={UpdateForm}/>
+                        <Route  path='/charts' component={Personal}/>
+                        <Route component={NotFound}/>
                     </Switch>
                 </Content>
                 <Footer style={{textAlign:"center",lineHeight:""}}>
