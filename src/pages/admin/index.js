@@ -12,12 +12,10 @@ import NotFound from "../not_found";
 import storageUtils from '../../utils/storageUtils';
 import LeftNav from './leftNav';
 import HeaderPart from './header';
-
-
 import './index.less';
+import Others from "../attendance/others";
 
 const {Footer, Content } = Layout;
-
 
 export default function Admin(){
     const user=storageUtils.getUser();
@@ -37,6 +35,7 @@ export default function Admin(){
                         <Route  path='/home' component={Home}/>
                         <Route  path='/freshman' component={Freshman}/>
                         <Route  path='/sophomore' component={Sophomore}/>
+                        <Route  path='/others' component={Others}/>
                         <Route  path='/userinfo' component={User}/>
                         <Route exact path='/detail' component={Detail}/>
                         <Route path='/detail/update' component={UpdateForm}/>

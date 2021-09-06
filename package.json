@@ -107,7 +107,7 @@
     ]
   },
 
-  "proxy": "http://localhost:8082",
+  "proxy": "http://47.108.228.4:8082",
 
 
 

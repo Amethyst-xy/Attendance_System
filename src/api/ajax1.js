@@ -5,6 +5,8 @@ import getUserIP from "./getUserIP";
 import md5 from "js-md5"
 import {Redirect} from "react-router-dom";
 import React from "react";
+import {reqLogout} from "./index";
+import storageUtils from "../utils/storageUtils";
 
 
 export default function ajax1(url, data={}) {
@@ -24,6 +26,7 @@ export default function ajax1(url, data={}) {
                         var minutes = new Date().getMinutes();
                         var concatIp = value+minutes;
                         md5Ip = md5(concatIp);
+
                     }
 
                     promise = axios.post(url, Qs.stringify(data), {
@@ -39,8 +42,11 @@ export default function ajax1(url, data={}) {
                         } else if (error.response.status === 403) {
                             message.error('权限不足，请联系管理员')
                         } else if (error.response.status === 401) {
-                            message.error(error.response.data.msg ? error.response.data.msg : '尚未登录，请登录');
-                            return <Redirect to='/login'/>;
+                            message.error( '尚未登录，请登录');
+                            reqLogout().then(resp=>{
+                                storageUtils.removeUser();
+                                window.location.reload();
+                            })
                         } else {
                             if (error.response.data.msg) {
                                 message.error( error.response.data.msg)

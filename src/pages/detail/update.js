@@ -3,7 +3,7 @@ import { Card,Form, Input,Select,Button,message } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import PicturesWall from "./picture_wall";
 import LinkButton from "../../components/link_button/link_button";
-import {reqLogin, reqLogout, reqUpdateSelf} from "../../api";
+import {reqLogout, reqUpdateSelf} from "../../api";
 import storageUtils from '../../utils/storageUtils';
 
 export default function UpdateForm(props){

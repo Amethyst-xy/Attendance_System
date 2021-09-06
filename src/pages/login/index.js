@@ -3,7 +3,6 @@ import {Form, Select, Input, Button, message} from 'antd';
 import storageUtils from "../../utils/storageUtils";
 import './index.less';
 import {reqRegister, reqLogin} from "../../api";
-import {Redirect} from "react-router-dom";
 
 const {Option}=Select;
 
@@ -30,7 +29,8 @@ export default function Login(props){
             nickname,
             password,
             grade,
-            code
+            code,
+            // passphrase
         }
 
         if(register){
@@ -56,8 +56,6 @@ export default function Login(props){
                 storageUtils.addUser(res.data);
                 setTimeout(()=>{
                 },1000);
-
-                message.success('登录成功');
                 props.history.replace('/');//跳转首页
             }else{
                 await updateVerifyCode();
@@ -186,6 +184,7 @@ export default function Login(props){
                                 >
                                     <Option value={0}>大一</Option>
                                     <Option value={1}>大二</Option>
+                                    <Option value={2}>其他年级</Option>
                                 </Select>
                             </Form.Item>
 

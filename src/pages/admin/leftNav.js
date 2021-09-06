@@ -1,29 +1,17 @@
 import React,{useEffect,useState} from 'react';
-import menuConfig from "../../config/menuConfig";
 import {withRouter,Link} from 'react-router-dom';
 import {Menu,Layout} from 'antd';
 import storageUtils from '../../utils/storageUtils';
-import url from '../../assets/images/1.png';
-import {BASE_SRC} from '../../utils/constants';
 import {reqDetailInfo,reqGetMenuList} from '../../api';
 
 const { SubMenu } = Menu;
 const {Sider}=Layout;
 
-// const hasAuth=(cur)=>{
-//     //当前用户为admin
-//     //菜单名称不是用户管理
-//     const username=storageUtils.getUser().username;
-//     if(username==='admin'||cur.title!=='用户管理'){
-//         return true;
-//     }
-//     return false;
-// }
+
 
 const LeftNav=(props)=>{
     let menus,selected,openKey,willmount=true;//当前选中
     const [user, setUser] = useState(storageUtils.getUser());
-
     const [menu, setMenu] = useState([]);
 
 
@@ -31,7 +19,6 @@ const LeftNav=(props)=>{
     const initSubMemu=(menuList)=>{
 
         const menus=menuList.reduce((pre,cur)=>{
-            // if(hasAuth(cur)){
                 if(cur.children != null && cur.children.length === 0){
                     pre.push(
                         <Menu.Item key={cur.key} icon={cur.icon}>
@@ -55,10 +42,7 @@ const LeftNav=(props)=>{
                         );
 
                     }
-
-
                 }
-            // }
             return pre;
         },[]);
         return menus;
@@ -74,7 +58,6 @@ const LeftNav=(props)=>{
 
     //获取菜单
     const getMenu=async ()=>{
-
         const res=await reqGetMenuList();
         if(res.status === 0){
             setMenu(res.data);
@@ -84,9 +67,7 @@ const LeftNav=(props)=>{
     if(willmount){
         willmount=false;
         selected=props.location.pathname;
-        // menus=initSubMemu(menuConfig);
         menus=initSubMemu(menu);
-        // menus=menu;
     }
 
 
@@ -97,25 +78,28 @@ const LeftNav=(props)=>{
 
 
     return (
-   
+
         <Sider className='sider'>
             <div className='sider_header'>
                 <div className='avatar'>
-                    <img src={user.avatar?user.avatar:url} alt='avatar'></img>
+                    <img src={user.avatar} alt='avatar'></img>
                 </div>
                 <p className='nickname'>{user.nickname}</p>
-            </div>      
+            </div>
             <Menu
                 mode="inline"
                 theme="dark"
-                
+
                 defaultOpenKeys={[openKey]}
                 defaultSelectedKeys={[selected]}
                 >
                     {menus}
             </Menu>
-        </Sider>    
+        </Sider>
     );
 }
+
+
+
 
 export default withRouter(LeftNav);

@@ -5,6 +5,9 @@ import Pie from './charts_options/pie';
 import './index.less';
 
 export default function Home(){
+
+
+
     return (
         <div>
             <Card title='折线统计图'>
@@ -23,7 +26,6 @@ export default function Home(){
                     </Col>
                 </Row>
             </Card>
-
         </div>
 
     );

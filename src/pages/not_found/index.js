@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Row, Col} from 'antd';
+import { Row, Col} from 'antd';
 import './not-found.less';
 
 export default class NotFound extends Component {
@@ -10,11 +10,6 @@ export default class NotFound extends Component {
         <Col span={12} className='right'>
           <h1>404</h1>
           <h2>抱歉，你访问的页面不存在</h2>
-          <div>
-            <Button type='primary' onClick={() => this.props.history.replace('/home')}>
-              回到首页
-            </Button>
-          </div>
         </Col>
       </Row>
     )

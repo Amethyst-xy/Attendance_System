@@ -105,6 +105,7 @@ class Detail extends Component{
             }
             this.setState({list,isloading:false});
         }
+        this.setState({isloading:false});
     }
 
     //开始打卡
@@ -147,10 +148,10 @@ class Detail extends Component{
             } else {
                 Modal.confirm({
                     content: res.msg + ',确定要结束吗？',
-                    onOk: () => {
+                    onOk: async () => {
                         storageUtils.addStatus(false);
-                        reqChangeOnline(username);
-                        this.initUsers();
+                        await reqChangeOnline(username);
+                        await this.initUsers();
                     }
                 })
             }
@@ -181,8 +182,8 @@ class Detail extends Component{
         notification.open({
             message: '浏览器权限设置',
             description:
-                '1.请使用谷歌浏览器PC端打卡\n' +
-                '2.打开地址chrome://flags/\n' +
+                '1.请使用谷歌浏览器PC端打卡 \n ' +
+                '2.打开地址chrome://flags/ \n ' +
                 '3.搜索 #enable-webrtc-hide-local-ips-with-mdns 该配置 并将属性改为disabled',
             btn,
             key,

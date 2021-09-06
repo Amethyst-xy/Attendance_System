@@ -29,7 +29,7 @@ class PicturesWall extends React.Component {
                 uid: '-1',
                 name: 'avatar.png',
                 status: 'done',
-                url:avatar?BASE_SRC+avatar:url
+                url:avatar
               }
             ]
         };
@@ -66,6 +66,7 @@ class PicturesWall extends React.Component {
                 //更新fileList的最后一个元素（当前图片信息）
                 file=fileList[fileList.length-1];
                 file.name=data;
+
                 message.success('上传成功');
             }else{
                 message.error('上传失败');
