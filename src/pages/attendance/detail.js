@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
-import { Card,Button,Table,Progress,message,Modal } from "antd";
+import {Card, Button, Table, Progress, message, Modal, notification} from "antd";
 import {getUsers, reqStartClock, reqEndClock, reqChangeOnline} from "../../api";
 import storageUtils from '../../utils/storageUtils';
+import {Redirect} from "react-router-dom";
   
 
 class Detail extends Component{
@@ -119,7 +120,9 @@ class Detail extends Component{
                 message.success('打卡成功');
                 //将storage中的状态改为true
                 this.initUsers();
-            } else if (res.status !== 0) {
+            }  else if (res.status === 3) {
+                this.openNotification();
+            } else if (res.status === 2) {
                 message.error(res.msg);
             }
         }
@@ -137,8 +140,10 @@ class Detail extends Component{
             if (res.status === 0) {
                 message.success('下卡成功');
                 await this.initUsers();
-            } else if (res.status === 2 || res.status === 3) {
+            } else if (res.status === 2) {
                 message.error(res.msg);
+            } else if (res.status === 3) {
+                this.openNotification();
             } else {
                 Modal.confirm({
                     content: res.msg + ',确定要结束吗？',
@@ -160,6 +165,32 @@ class Detail extends Component{
     componentDidMount(){
         this.initUsers();
     }
+
+
+    close = () => {
+        return <Redirect to='chrome://flags/'/>
+    };
+
+    openNotification = () => {
+        const key = `open${Date.now()}`;
+        const btn = (
+            <Button type="primary" size="small" onClick={() => notification.close(key)}>
+                Confirm
+            </Button>
+        );
+        notification.open({
+            message: '浏览器权限设置',
+            description:
+                '1.请使用谷歌浏览器PC端打卡\n' +
+                '2.打开地址chrome://flags/\n' +
+                '3.搜索 #enable-webrtc-hide-local-ips-with-mdns 该配置 并将属性改为disabled',
+            btn,
+            key,
+            onClose: this.close(),
+        });
+    };
+
+
 
     render(){
         const {list,isloading,isonline ,clockLoading}=this.state;

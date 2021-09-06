@@ -32,7 +32,7 @@ export default function SelfInfo(props){
     return (
         <div>
             <div className='header'>
-                <img src={user.avatar?(user.avatar):src} alt='avatar'></img>
+                <img src={user.avatar ? (user.avatar) : src} alt='avatar'/>
                 <p className='header_right'>
                     <span className='nickname'>{nickname}</span>
                     <span className='modify' onClick={()=>{props.history.push('/detail/update',user)}}>

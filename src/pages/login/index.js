@@ -66,9 +66,9 @@ export default function Login(props){
         }
     };
 
-    if(storageUtils.getUser().username){
-        return <Redirect to='/'/>
-    }
+    // if(storageUtils.getUser().username){
+    //     return <Redirect to='/'/>
+    // }
 
     return (
         <div className='login_wrapper'>

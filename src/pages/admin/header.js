@@ -71,7 +71,7 @@ const HeaderPart=(props)=>{
             </div>
             <div className='bottom'>
                 <div className='bottom_left'>{getTitle()}</div>
-                <div className='bottom_right'>当前是第{clean.week+1}周，卫生:{clean.nickname}</div>
+                <div className='bottom_right'>当前是第{clean.week+1}周，卫生:{clean.username}</div>
             </div>
         </Header>
     );

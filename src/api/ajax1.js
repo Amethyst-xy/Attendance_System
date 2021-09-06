@@ -18,8 +18,6 @@ export default function ajax1(url, data={}) {
                 getUserIP().then(value => {
                     let md5Ip = 'offRTC';
 
-                    console.log(value);
-
                     //加密
                     if (value!== undefined && value.length <= 15 ) {
                         value = value.substr(0, 10);
@@ -36,7 +34,6 @@ export default function ajax1(url, data={}) {
                         resolve(response.data)
                         // 3. 如果失败了, 不调用reject(reason), 而是提示异常信息
                     }).catch(error => {
-
                         if (error.response.status === 504 || error.response.status === 404) {
                             message.error( '服务器被吃了( ╯□╰ )')
                         } else if (error.response.status === 403) {

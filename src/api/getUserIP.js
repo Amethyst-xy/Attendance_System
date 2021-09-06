@@ -28,7 +28,6 @@ export  default function getUserIP () {
                     if (evt.candidate) {
                         ip = evt.candidate.address;
                         resolve(ip);
-                        console.log(ip);
                     }
                 };
 
