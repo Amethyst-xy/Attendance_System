@@ -12,7 +12,7 @@
     "@testing-library/user-event": "^12.1.10",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
-    "antd": "^4.16.10",
+    "antd": "^4.17.0-alpha.3",
     "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.0",
@@ -106,11 +106,7 @@
       "last 1 safari version"
     ]
   },
-
-  "proxy": "http://47.108.228.4:8082",
-
-
-
+  "proxy": "http://localhost:8082",
   "devDependencies": {
     "sass-loader": "^7.3.1"
   },

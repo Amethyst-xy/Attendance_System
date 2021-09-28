@@ -42,11 +42,8 @@ export default function Login(props){
             }else{
                 const res=await reqRegister(params);
                 if(res.status===0){
-                    message.success('注册成功');
                     setregister(false);
                     formRef.current.resetFields();
-                }else{
-                    message.error('注册失败');
                 }
             }
         }else{
@@ -59,7 +56,7 @@ export default function Login(props){
                 props.history.replace('/');//跳转首页
             }else{
                 await updateVerifyCode();
-                message.error(res.msg);
+                formRef.current.resetFields();
             }
         }
     };

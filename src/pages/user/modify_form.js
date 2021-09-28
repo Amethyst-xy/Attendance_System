@@ -64,6 +64,7 @@ class ModifyForm extends Component{
             <Select>
               <Option value={0}>大一</Option>
               <Option value={1}>大二</Option>
+              <Option value={2}>其他年级</Option>
             </Select>
           </Form.Item>
           <Form.Item 

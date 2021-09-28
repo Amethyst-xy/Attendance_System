@@ -77,6 +77,7 @@ export default function Pie(props){
         if(res.status===0){
             const arr=[];
             const userdata=res.data;
+
             for(var i in userdata){
                 arr.push({value:userdata[i].allTime,name:userdata[i].nickname});
             }

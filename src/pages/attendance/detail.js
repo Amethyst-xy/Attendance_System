@@ -169,7 +169,7 @@ class Detail extends Component{
 
 
     close = () => {
-        return <Redirect to='chrome://flags/'/>
+        window.open('chrome://flags/');
     };
 
     openNotification = () => {

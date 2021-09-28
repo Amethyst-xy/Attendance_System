@@ -16,12 +16,15 @@ export default function User(props){
     const initUsers=async ()=>{
         setisloading(true);
         let arr=[];
-        const res=await Promise.all([getUsers(0),getUsers(1)]);
+        const res=await Promise.all([getUsers(0),getUsers(1),getUsers(2)]);
         if(res[0].status===0){
             arr=res[0].data;
         }
         if(res[1].status===0){
             arr=[...arr,...res[1].data];
+        }
+        if(res[1].status===0){
+            arr=[...arr,...res[2].data];
         }
         
         arr.sort((a,b)=>b.finishTime-a.finishTime);
@@ -80,7 +83,16 @@ export default function User(props){
                 title:'年级',
                 dataIndex:'grade',
                 align:'center',
-                render:grade=>grade?'大二':'大一'
+                render:grade=> {
+                    // grade ? '大二' : '大一'
+                    if (grade === 0) {
+                        return  '大一';
+                    } else if (grade === 1) {
+                        return  '大二';
+                    } else {
+                        return  '其他年级';
+                    }
+                }
             },
             {
                 title: '状态',

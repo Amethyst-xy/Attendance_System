@@ -51,4 +51,17 @@ export const reqChangeOnline=(username)=>ajax(BASE_URL+'/user/changeOnline',{use
 // 退出认证
 export const reqLogout=()=>ajax(BASE_URL+'/logout');
 
+// 获取上周未完成打卡成员
+export const reqIncomplete=()=>ajax(BASE_URL+'/user/incomplete');
+
+// 获取公告信息
+export const reqAnnouncement=()=>ajax(BASE_URL+'/user/announcement');
+
+// 添加公告信息
+export const addAnnouncement=(type, message, description)=>ajax(BASE_URL+'/manage/announcement', {type, message, description}, 'POST');
+
+// 删除公告信息
+export const deleteAnnouncement=(id)=>ajax(BASE_URL+'/manage/deleteAnnouncement', {id}, 'POST');
+
+
 

@@ -14,7 +14,6 @@ const LeftNav=(props)=>{
     const [user, setUser] = useState(storageUtils.getUser());
     const [menu, setMenu] = useState([]);
 
-
     //构建SubMenu数组
     const initSubMemu=(menuList)=>{
 
@@ -47,6 +46,7 @@ const LeftNav=(props)=>{
         },[]);
         return menus;
     }
+
 
     //获取用户详情
     const getDetail=async ()=>{
@@ -82,14 +82,13 @@ const LeftNav=(props)=>{
         <Sider className='sider'>
             <div className='sider_header'>
                 <div className='avatar'>
-                    <img src={user.avatar} alt='avatar'></img>
+                    <img src={user.avatar} alt='avatar'/>
                 </div>
                 <p className='nickname'>{user.nickname}</p>
             </div>
             <Menu
                 mode="inline"
                 theme="dark"
-
                 defaultOpenKeys={[openKey]}
                 defaultSelectedKeys={[selected]}
                 >

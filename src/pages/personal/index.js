@@ -65,6 +65,7 @@ class Personal extends Component{
 
     //获取每周/每天的数据
     getData=async (isweek)=>{
+        console.log(isweek);
         const username=storageUtils.getUser().username;
         let res;
         if(isweek){
@@ -73,6 +74,7 @@ class Personal extends Component{
             res=await reqDayData(2);
         }
         const arr=res.data;
+        console.log(arr);
         for(let i in arr){
             if(arr[i].username===username){
                 const obj=arr[i].day;

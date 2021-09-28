@@ -83,7 +83,7 @@ export default function UpdateForm(props){
                         {required:true,message:'必须输入!'}
                     ]}
                 >
-                    <Input disabled={username==='admin'?true:false}/>
+                    <Input disabled={username === 'admin'}/>
                 </Form.Item>
                 <Form.Item
                     {...layoutCol}
@@ -110,7 +110,7 @@ export default function UpdateForm(props){
                     name='grade'
                     label='年级'
                 >
-                    <Select>
+                    <Select disabled={true}>
                     <Select.Option value='freshman'>2021级</Select.Option>
                     <Select.Option value='sophomore'>2020级</Select.Option>
                     </Select>

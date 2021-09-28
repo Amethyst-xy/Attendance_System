@@ -14,6 +14,9 @@ import LeftNav from './leftNav';
 import HeaderPart from './header';
 import './index.less';
 import Others from "../attendance/others";
+import Incomplete from "../attendance/incomplete";
+import Official from "../Official";
+
 
 const {Footer, Content } = Layout;
 
@@ -36,10 +39,12 @@ export default function Admin(){
                         <Route  path='/freshman' component={Freshman}/>
                         <Route  path='/sophomore' component={Sophomore}/>
                         <Route  path='/others' component={Others}/>
+                        <Route  path='/incomplete' component={Incomplete}/>
                         <Route  path='/userinfo' component={User}/>
                         <Route exact path='/detail' component={Detail}/>
                         <Route path='/detail/update' component={UpdateForm}/>
                         <Route  path='/charts' component={Personal}/>
+                        <Route  path='/official' component={Official}/>
                         <Route component={NotFound}/>
                     </Switch>
                 </Content>
